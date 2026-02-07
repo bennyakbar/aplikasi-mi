@@ -4,10 +4,10 @@ FROM composer:2.6 AS composer
 
 WORKDIR /app
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+# RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 COPY . .
-RUN composer dump-autoload --optimize
+# RUN composer dump-autoload --optimize
 
 # Stage 2: Frontend assets (if needed)
 FROM node:20-alpine AS node
