@@ -77,9 +77,11 @@ docker compose up -d
 
 | Role | Email | Password |
 |------|-------|----------|
-| System Admin | admin@tu.test | password |
-| Bendahara | bendahara@tu.test | password |
-| Petugas | petugas@tu.test | password |
+| System Admin | admin@tusd.test | password |
+| Bendahara | bendahara@tusd.test | password |
+| Petugas Transaksi | petugas@tusd.test | password |
+| Admin Master Data | masterdata@tusd.test | password |
+| Yayasan | yayasan@tusd.test | password |
 
 ## Production Notes
 
