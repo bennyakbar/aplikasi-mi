@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\StudentCategory;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -31,18 +33,9 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreStudentRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'nis' => 'required|string|max:20|unique:students,nis',
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:student_categories,id',
-            'grade' => 'required|integer|min:1|max:6',
-            'academic_year' => 'required|string|max:9',
-            'status' => 'required|in:active,graduated,transferred',
-        ]);
-
-        Student::create($validated);
+        Student::create($request->validated());
 
         return redirect()->route('students.index')
             ->with('success', 'Siswa berhasil ditambahkan.');
@@ -69,18 +62,9 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $student): RedirectResponse
+    public function update(UpdateStudentRequest $request, Student $student): RedirectResponse
     {
-        $validated = $request->validate([
-            'nis' => 'required|string|max:20|unique:students,nis,' . $student->id,
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:student_categories,id',
-            'grade' => 'required|integer|min:1|max:6',
-            'academic_year' => 'required|string|max:9',
-            'status' => 'required|in:active,graduated,transferred',
-        ]);
-
-        $student->update($validated);
+        $student->update($request->validated());
 
         return redirect()->route('students.index')
             ->with('success', 'Siswa berhasil diperbarui.');

@@ -6,6 +6,7 @@ use App\Models\Fee;
 use App\Models\Payment;
 use App\Models\Student;
 use App\Services\PaymentService;
+use App\Http\Requests\StorePaymentRequest;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -59,19 +60,9 @@ class PaymentController extends Controller
     /**
      * Store a newly created payment
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StorePaymentRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'payment_date' => 'required|date',
-            'payment_method' => 'required|in:cash,transfer',
-            'notes' => 'nullable|string',
-            'items' => 'required|array|min:1',
-            'items.*.fee_id' => 'required|exists:fees,id',
-            'items.*.amount' => 'required|numeric|min:0',
-            'items.*.period_month' => 'nullable|integer|min:1|max:12',
-            'items.*.period_year' => 'nullable|integer|min:2020|max:2100',
-        ]);
+        $validated = $request->validated();
 
         // Filter out items with zero amount
         $items = collect($validated['items'])->filter(fn($item) => $item['amount'] > 0)->values()->toArray();

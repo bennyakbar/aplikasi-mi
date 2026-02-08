@@ -24,8 +24,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // API rate limiting
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+        // Login rate limiting - strict for brute-force protection
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(5)->by($request->ip())->response(function () {
+                return redirect()->route('login')
+                    ->withErrors(['email' => 'Terlalu banyak percobaan login. Silakan tunggu 1 menit.']);
+            });
+        });
+
+        // Password reset rate limiting
+        RateLimiter::for('password-reset', function (Request $request) {
+            return Limit::perMinute(3)->by($request->ip());
         });
 
         $this->routes(function () {
