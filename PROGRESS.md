@@ -54,23 +54,51 @@
 | 9 | Accounting views | ✅ Done | accounts, journal, ledger, summary, trial |
 | 10 | Auto-journal on payment | ✅ Done | Integrated in PaymentService |
 
-### Phase 3 Summary
-- **3 Tables**: accounts, journal_entries, journal_entry_lines
-- **3 Models**: Account, JournalEntry, JournalEntryLine
-- **21 Accounts**: Standard chart of accounts
-- **5 Views**: Accounts, Journal, Ledger, Monthly Summary, Trial Balance
-- **Auto-journaling**: Payment creates journal entry automatically
+---
+
+## Phase 4: Governance (RBAC) ✅ COMPLETE
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 1 | User management | ✅ Done | UserController with CRUD |
+| 2 | Role assignment | ✅ Done | 5 roles via Spatie Permission |
+| 3 | Route protection | ✅ Done | Middleware per role group |
+| 4 | Backup system | ✅ Done | BackupController + download |
+| 5 | Audit logs | ✅ Done | AuditLogController |
+| 6 | Payment corrections | ✅ Done | Request + approve workflow |
 
 ---
 
-## Phase 4: Governance (RBAC)
-🔲 Not Started
+## Phase 5: Dashboard & Reports ✅ COMPLETE
 
-## Phase 5: Dashboard
-🔲 Not Started
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 5.1 | Dashboard Bendahara | ✅ Done | Stats, trend chart, quick actions |
+| 5.2 | Dashboard Yayasan | ✅ Done | Yearly stats, category summary |
+| 5.3 | Report Export | ✅ Done | Excel tunggakan, PDF rekap |
+| 5.4 | Dashboard System Admin | ✅ Done | User/backup/audit management |
+| 5.5 | Dashboard Petugas | ✅ Done | Today's transactions |
+| 5.6 | Dashboard Admin Data | ✅ Done | Master data stats |
 
-## Phase 6: Hardening
-🔲 Not Started
+### Task 5.3 Detail - Report Export
+- [x] Install maatwebsite/excel & dompdf
+- [x] Create ReportController
+- [x] Export Tunggakan to Excel
+- [x] Export Rekap Bulanan to PDF
+
+---
+
+## Phase 6: Hardening 🔄 IN PROGRESS
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 6.1 | Docker Support | ✅ Done | Dockerfile, docker-compose, PostgreSQL |
+| 6.2 | Input Validation | 🔲 Pending | Form request validation |
+| 6.3 | Rate Limiting | 🔲 Pending | API throttling |
+| 6.4 | Security Headers | ✅ Done | Nginx configuration |
+
+---
 
 ## Phase 7: Testing & Training
 🔲 Not Started
+
