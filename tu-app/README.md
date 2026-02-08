@@ -1,87 +1,120 @@
-# How to Run This Application
+# TU App - Sistem Tata Usaha Sekolah
 
-## Quick Start (Local Development)
+Aplikasi manajemen keuangan sekolah berbasis Laravel + Docker.
 
-### Prerequisites
-- PHP 8.1+ with extensions: pgsql, pdo_pgsql, gd, zip, bcmath
-- Composer
-- Node.js 18+ and npm
-- PostgreSQL 14+ (running on port 5433)
-
-### Step-by-Step
-
-```powershell
-# 1. Navigate to project
-cd tu-app
-
-# 2. Install PHP dependencies (if not done)
-php composer.phar install
-
-# 3. Install Node dependencies & build assets
-npm install
-npm run build
-
-# 4. Copy environment file (already done)
-cp .env.example .env
-
-# 5. Generate app key
-php artisan key:generate
-
-# 6. Configure database in .env
-# Edit .env with your PostgreSQL credentials:
-# DB_CONNECTION=pgsql
-# DB_HOST=127.0.0.1
-# DB_PORT=5433
-# DB_DATABASE=tu_sd_system
-# DB_USERNAME=your_username
-# DB_PASSWORD=your_password
-
-# 7. Create database (in psql or pgAdmin)
-# CREATE DATABASE tu_sd_system;
-
-# 8. Run migrations and seed
-php artisan migrate --seed
-
-# 9. Start development server
-php artisan serve
-
-# 10. Open browser
-# http://localhost:8000
-```
-
----
-
-## Test Users (After Seeding)
-
-| Role | Email | Password |
-|------|-------|----------|
-| System Admin | systemadmin@tu.test | password |
-| Bendahara | bendahara@tu.test | password |
-| Petugas | petugas@tu.test | password |
-| Admin Data | admindata@tu.test | password |
-| Yayasan | yayasan@tu.test | password |
-
----
-
-## Using Docker (Alternative)
-
-If you have Docker installed:
+## 🚀 Quick Start (Docker - Recommended)
 
 ```bash
 cd tu-app
-cp .env.docker .env
-docker compose up -d
-docker compose exec app php artisan migrate --seed
-# Open http://localhost:8080
+chmod +x setup.sh
+./setup.sh start
+# Buka http://localhost:8080
+```
+
+### Akun Test
+
+| Role | Email | Password |
+|------|-------|----------|
+| System Admin | admin@tusd.test | password |
+| Bendahara | bendahara@tusd.test | password |
+| Petugas | petugas@tusd.test | password |
+
+---
+
+## 📦 Fitur Utama
+
+- ✅ Manajemen Data Siswa
+- ✅ Pencatatan Pembayaran & Kwitansi (A5 Landscape)
+- ✅ Laporan Keuangan (General Ledger, Trial Balance)
+- ✅ Multi-role User Management
+- ✅ Export PDF & Excel
+- ✅ Logo Sekolah di Kwitansi
+
+---
+
+## 🔧 Konfigurasi
+
+### Ganti Logo Sekolah
+
+Letakkan file logo di:
+```
+public/images/logo.png
+```
+Ukuran rekomendasi: 200x200 pixel (PNG transparan)
+
+### Ganti Nama & Alamat Sekolah
+
+Edit file: `resources/views/payments/receipt.blade.php`
+```html
+<p class="school-name">MI NURUL FALAH</p>
+<p class="school-address">Jl. Contoh Alamat No. 123, Kota</p>
 ```
 
 ---
 
-## Common Issues
+## 🐳 Docker Commands
 
-| Problem | Solution |
-|---------|----------|
-| Database not found | Create database: `CREATE DATABASE tu_sd_system;` |
-| Port 5433 refused | Start PostgreSQL service |
-| Class not found | Run `composer dump-autoload` |
-| Missing styles | Run `npm run build` |
+```bash
+# Start
+./setup.sh start
+
+# Stop
+./setup.sh stop
+
+# Rebuild (after code changes)
+./setup.sh rebuild
+
+# Logs
+./setup.sh logs
+
+# Clear cache
+docker compose exec app php artisan optimize:clear
+```
+
+---
+
+## 💻 Local Development (Tanpa Docker)
+
+### Prerequisites
+- PHP 8.2+ dengan extensions: pgsql, pdo_pgsql, gd, zip, bcmath
+- Composer
+- Node.js 18+ dan npm
+- PostgreSQL 15+
+
+### Setup
+
+```bash
+cd tu-app
+composer install
+npm install && npm run build
+cp .env.example .env
+php artisan key:generate
+# Edit .env untuk database
+php artisan migrate --seed
+php artisan serve
+# Buka http://localhost:8000
+```
+
+---
+
+## 📂 Struktur Folder Penting
+
+```
+tu-app/
+├── public/images/         # Logo sekolah
+├── resources/views/       # Blade templates
+├── storage/               # Upload files, logs
+├── docker-compose.yml     # Docker config
+└── setup.sh               # Docker helper script
+```
+
+---
+
+## ❓ Troubleshooting
+
+| Masalah | Solusi |
+|---------|--------|
+| Container tidak jalan | `./setup.sh rebuild` |
+| Perubahan tidak tampil | `docker compose exec app php artisan optimize:clear` |
+| Database error | Pastikan `tu_db` container running |
+| Logo tidak muncul | Copy ke `public/images/logo.png` lalu restart |
